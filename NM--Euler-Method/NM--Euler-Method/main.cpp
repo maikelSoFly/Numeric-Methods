@@ -34,20 +34,15 @@ double ApproxError(double t, double x, double h, functionPtr f) {
 
 // paste it to LaTeX table
 void PrintOutcome(double t, double x, double h, double i, functionPtr fun = NULL) {
-    cout << left
-         << t
-         << left
-         << "&"
-         << left
-         << x
-         << left
-         << "&"
-         << f1Deriv(t, x)
-         << left
-         << "&"
-         << ApproxError(t, x, h, fun)
-         << "\\\\ \\hline"
-         << endl;
+    cout    << t
+            << " & "
+            << x
+            << " & "
+            << f1Deriv(t, x)
+            << " & "
+            << ApproxError(t, x, h, fun)
+            << " \\\\ \\hline"
+            << endl;
 }
 
 
