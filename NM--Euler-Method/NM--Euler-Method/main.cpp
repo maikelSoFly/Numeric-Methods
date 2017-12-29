@@ -16,20 +16,20 @@ typedef double (*functionPtr)(double, double);
 
 
 //FUNCTIONS
+// y' = x + y       y(0) = 0,   0 < x < 1
 double f1(double x, double y) {
     return x+y;
 }
-
+// y = Cexp(x) - x - 1
+// C = 1    - z warunków początkowych.
 double f1Deriv(double x, double y) {
-    
     return exp(x) - x - 1;
 }
 
 double ApproxError(double x, double y, double h, functionPtr f) {
-   
     return abs(y - f1Deriv(x, y));
-    
 }
+
 
 void PrintOutcome(double x, double y, double h, double i, functionPtr fun = NULL) {
     cout << setw(4)
@@ -99,16 +99,17 @@ int main(int argc, const char * argv[]) {
     double xs, xf, ys, h;
     functionPtr f;
     
-    xs = 0, xf = 1, ys = 0, h = 0.1, f = f1; // Function 1
+    // y' = x + y       y(0) = 0,   0 < x < 1
+    xs = 0, xf = 1, ys = 0, h = 0.1, f = f1;
     
-    cout << "Funkcja 1" << endl << endl << "Euler (podstawowy):" << endl;
+    cout << "Euler (podstawowy):" << endl;
     Euler(xs, xf,ys, h, f);
-    cout << endl << "Euler (Heun):" << endl;
-    EulerHeun(xs, xf, ys, h, f);
     cout << endl << "Euler (midpoint)" << endl;
     EulerMidPoint(xs, xf,ys, h, f);
-    cout << endl << endl;
     
+    cout << endl << "Euler (Heun):" << endl;
+    EulerHeun(xs, xf, ys, h, f);
+    cout << endl << endl;
 
     return 0;
 }
