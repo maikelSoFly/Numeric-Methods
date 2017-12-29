@@ -18,9 +18,12 @@ const double e = 2.721828;
 
 //FUNCTIONS
 double f1(double x, double y) {
-    return -2 * pow(x, 3) + 12 * pow(x, 2) - 20 * x + 8.5;
+    return x+y;
 }
 
+
+
+// nvm...
 double f2(double x, double y) {
     return 3 * pow(x, 2) - 2 * pow(y, 2);
 }
@@ -30,21 +33,21 @@ double f3(double x, double y) {
 }
 
 double f1Derivative(double x, double y) {
-    return -6 * pow(x, 2) + 24 * x - 20;
+    return NULL;
 }
 
 double ApproxError(double x, double y, double h, functionPtr f) {
-    functionPtr 🌵🌵🌵🌵;
+    functionPtr fTemp;
     
     if(f == f1)
-        🌵🌵🌵🌵 = f1Derivative;
+        fTemp = f1Derivative;
     else if (f == f2)
-        🌵🌵🌵🌵 = NULL;
-    else if(f = f3)
-        🌵🌵🌵🌵 = NULL;
+        fTemp = NULL;
+    else if(f == f3)
+        fTemp = NULL;
     
-    if(🌵🌵🌵🌵 != NULL) {
-        return 🌵🌵🌵🌵(x, y) * pow(h, 2) / 2;
+    if(fTemp != NULL) {
+        return fTemp(x, y) * pow(h, 2) / 2;
     }
     else
         return NULL;
@@ -53,11 +56,11 @@ double ApproxError(double x, double y, double h, functionPtr f) {
 void PrintOutcome(double x, double y, double h, double i, functionPtr fun = NULL) {
     cout << setw(4)
          << left
-         << "❌ = "
+         << "x = "
          << setw(20)
          << x
          << left
-         << "⭕️"
+         << "i"
          <<  setw(2)
          << i
          << left
@@ -65,25 +68,26 @@ void PrintOutcome(double x, double y, double h, double i, functionPtr fun = NULL
          << setw(20)
          << y
          << left
-         << "🔺: "
+         << "err: "
          << ApproxError(x, y, h, fun)
          << endl;
 }
 
 
-double 🇵🇱(double xs, double xf, double ys, double h, functionPtr f) {
+double Euler(double xs, double xf, double ys, double h, functionPtr f) {
     double x = xs, y = ys;
     
     for(int i = 0; x <= xf; ++i) {
         PrintOutcome(x, y, h, i, f);
         y += h * f(x, y);
         x += h;
+        
     }
     
     return y;
 }
 
-double 💧(double xs, double xf, double ys, double h, functionPtr f) {
+double EulerHeun(double xs, double xf, double ys, double h, functionPtr f) {
     double x = xs, y = ys;
     
     for(int i = 0; x <= xf; ++i) {
@@ -95,7 +99,7 @@ double 💧(double xs, double xf, double ys, double h, functionPtr f) {
     return y;
 }
 
-double 🍏(double xs, double xf, double ys, double h, functionPtr f) {
+double EulerMidPoint(double xs, double xf, double ys, double h, functionPtr f) {
     double x = xs, y = ys;
     
     for(int i = 0; x <= xf; ++i) {
@@ -110,39 +114,39 @@ double 🍏(double xs, double xf, double ys, double h, functionPtr f) {
 
 
 int main(int argc, const char * argv[]) {
-    double 🌵, 🌏, 🍺, 😁;
-    functionPtr 💩;
+    double xs, xf, ys, h;
+    functionPtr f;
     
-    🌵 = 0, 🌏 = 3, 🍺 = 1, 😁 = 0.5, 💩 = f1; // Function 1
+    xs = 0, xf = 1, ys = 0, h = 0.1, f = f1; // Function 1
     
     cout << "Funkcja 1" << endl << endl << "Euler (podstawowy):" << endl;
-    🇵🇱(🌵, 🌏, 🍺, 😁, 💩);
+    Euler(xs, xf,ys, h, f);
     cout << endl << "Euler (Heun):" << endl;
-    💧(🌵, 🌏, 🍺, 😁, 💩);
+    EulerHeun(xs, xf, ys, h, f);
     cout << endl << "Euler (midpoint)" << endl;
-    🍏(🌵, 🌏, 🍺, 😁, 💩);
+    EulerMidPoint(xs, xf,ys, h, f);
     cout << endl << endl;
     
-    🌵 = 0, 🌏 = 1, 🍺 = 1, 😁 = 0.1, 💩 = f2; // Function 2
-    
-    cout << "Funkcja 2" << endl << endl << "Euler (podstawowy):" << endl;
-    🇵🇱(🌵, 🌏, 🍺, 😁, 💩);
-    cout << endl << "Euler (Heun):" << endl;
-    💧(🌵, 🌏, 🍺, 😁, 💩);
-    cout << endl << "Euler (midpoint)" << endl;
-    🍏(🌵, 🌏, 🍺, 😁, 💩);
-    cout << endl << endl;
-    
-    🌵 = 0, 🌏 = 2, 🍺 = 3, 😁 = 0.5, 💩 = f3; // Function 3
-    
-    cout << "Funkcja 3" << endl << endl << "Euler (podstawowy):" << endl;
-    🇵🇱(🌵, 🌏, 🍺, 😁, 💩);
-    cout << endl << "Euler (Heun):" << endl;
-    💧(🌵, 🌏, 🍺, 😁, 💩);
-    cout << endl << "Euler (midpoint)" << endl;
-    🍏(🌵, 🌏, 🍺, 😁, 💩);
-    cout << endl << endl;
-    
-    
+//    xs = 0, xf = 1, ys = 1, h = 0.1, f = f2; // Function 2
+//
+//    cout << "Funkcja 2" << endl << endl << "Euler (podstawowy):" << endl;
+//   Euler(xs, xf, ys, h, f);
+//    cout << endl << "Euler (Heun):" << endl;
+//    EulerHeun(xs, xf, ys, h, f);
+//    cout << endl << "Euler (midpoint)" << endl;
+//    EulerMidPoint(xs, xf, ys, h, f);
+//    cout << endl << endl;
+//
+//    xs = 0,xf = 2, ys = 3, h = 0.5, f = f3; // Function 3
+//
+//    cout << "Funkcja 3" << endl << endl << "Euler (podstawowy):" << endl;
+//    Euler(xs, xf, ys, h, f);
+//    cout << endl << "Euler (Heun):" << endl;
+//    EulerHeun(xs, xf, ys, h, f);
+//    cout << endl << "Euler (midpoint)" << endl;
+//    EulerMidPoint(xs, xf, ys, h, f);
+//    cout << endl << endl;
+//
+//
     return 0;
 }
