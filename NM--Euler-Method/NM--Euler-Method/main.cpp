@@ -16,99 +16,99 @@ typedef double (*functionPtr)(double, double);
 
 
 //FUNCTIONS
-// y' = x + y       y(0) = 0,   0 < x < 1
-double f1(double x, double y) {
-    return x+y;
+// x' = t - x + 1       x(1) = 3,   1 < t < 2
+double f1(double t, double x) {
+    return t-x+1;
 }
-// y = Cexp(x) - x - 1
-// C = 1    - z warunków początkowych.
-double f1Deriv(double x, double y) {
-    return exp(x) - x - 1;
-}
-
-double ApproxError(double x, double y, double h, functionPtr f) {
-    return abs(y - f1Deriv(x, y));
+// x = Cexp(-t) + t
+// C = 2e    - z warunków początkowych.
+double f1Deriv(double t, double x) {
+    return 2*exp(1) * exp(-t) + t;
 }
 
+double ApproxError(double t, double x, double h, functionPtr f) {
+    return abs(x - f1Deriv(t, x));
+}
 
-void PrintOutcome(double x, double y, double h, double i, functionPtr fun = NULL) {
+
+void PrintOutcome(double t, double x, double h, double i, functionPtr fun = NULL) {
     cout << setw(4)
          << left
-         << "x = "
+         << "t = "
          << setw(20)
-         << x
+         << t
          << left
-         << "y"
+         << "x"
          <<  setw(2)
          << i
          << left
          << " = "
          << setw(20)
-         << y
+         << x
          << left
-         << "y(x): "
+         << "x(t) = "
          << setw(20)
-         << f1Deriv(x, y)
+         << f1Deriv(t, x)
          << left
          << "err: "
-         << ApproxError(x, y, h, fun)
+         << ApproxError(t, x, h, fun)
          << endl;
 }
 
 
-double Euler(double xs, double xf, double ys, double h, functionPtr f) {
-    double x = xs, y = ys;
+double Euler(double ts, double tf, double xs, double h, functionPtr f) {
+    double t = ts, x = xs;
     
-    for(int i = 0; x <= xf; ++i) {
-        PrintOutcome(x, y, h, i, f);
-        y += h * f(x, y);
-        x += h;
+    for(int i = 0; t <= tf; ++i) {
+        PrintOutcome(t, x, h, i, f);
+        x += h * f(t, x);
+        t += h;
         
     }
     
-    return y;
+    return x;
 }
 
-double EulerHeun(double xs, double xf, double ys, double h, functionPtr f) {
-    double x = xs, y = ys;
+double EulerHeun(double ts, double tf, double xs, double h, functionPtr f) {
+    double t = ts, x = xs;
     
-    for(int i = 0; x <= xf; ++i) {
-        PrintOutcome(x, y, h, i, f);
-        y += h * (f(x, y) + f(x+h, y + f(x, y) * h)) / 2;
-        x += h;
+    for(int i = 0; t <= tf; ++i) {
+        PrintOutcome(t, x, h, i, f);
+        x += h * (f(t, x) + f(t+h, x + f(t, x) * h)) / 2;
+        t += h;
     }
     
-    return y;
+    return x;
 }
 
-double EulerMidPoint(double xs, double xf, double ys, double h, functionPtr f) {
-    double x = xs, y = ys;
+double EulerMidPoint(double ts, double tf, double xs, double h, functionPtr f) {
+    double t = ts, x = xs;
     
-    for(int i = 0; x <= xf; ++i) {
-        PrintOutcome(x, y, h, i, f);
-        y += f(x + h/2, y + f(x, y) * h/2) * h;
-        x += h;
+    for(int i = 0; t <= tf; ++i) {
+        PrintOutcome(t, x, h, i, f);
+        x += f(t + h/2, x + f(t, x) * h/2) * h;
+        t += h;
     }
     
-    return y;
+    return x;
 }
 
 
 
 int main(int argc, const char * argv[]) {
-    double xs, xf, ys, h;
+    double ts, tf, xs, h;
     functionPtr f;
     
-    // y' = x + y       y(0) = 0,   0 < x < 1
-    xs = 0, xf = 1, ys = 0, h = 0.1, f = f1;
+    // x' = t - x + 1       x(1) = 3,   1 < t < 2
+    ts = 1, tf = 2, xs = 3, h = 0.1, f = f1;
     
     cout << "Euler (podstawowy):" << endl;
-    Euler(xs, xf,ys, h, f);
+    Euler(ts, tf,xs, h, f);
     cout << endl << "Euler (midpoint)" << endl;
-    EulerMidPoint(xs, xf,ys, h, f);
+    EulerMidPoint(ts, tf,xs, h, f);
     
     cout << endl << "Euler (Heun):" << endl;
-    EulerHeun(xs, xf, ys, h, f);
+    EulerHeun(ts, tf, xs, h, f);
     cout << endl << endl;
 
     return 0;
