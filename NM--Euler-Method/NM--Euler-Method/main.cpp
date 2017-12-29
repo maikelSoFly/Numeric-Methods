@@ -16,6 +16,8 @@ typedef double (*functionPtr)(double, double);
 
 
 //FUNCTIONS
+
+// Zadanie 7.
 // x' = t - x + 1       x(1) = 3,   1 < t < 2
 double f1(double t, double x) {
     return t-x+1;
@@ -63,7 +65,6 @@ double Euler(double ts, double tf, double xs, double h, functionPtr f) {
         PrintOutcome(t, x, h, i, f);
         x += h * f(t, x);
         t += h;
-        
     }
     
     return x;
