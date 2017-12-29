@@ -32,33 +32,36 @@ double ApproxError(double t, double x, double h, functionPtr f) {
     return f1Deriv(t, x) - x;
 }
 
-
+// paste it to LaTeX table
 void PrintOutcome(double t, double x, double h, double i, functionPtr fun = NULL) {
-    cout << setw(1)
-         << left
-         << "t"
-         << i
-         << left
-         << " = "
-         << setw(20)
+    cout << left
+         //<< "t"
+         //<< i
+         //<< left
+         //<< " = "
+         //<< setw(20)
          << t
          << left
-         << "x"
-         <<  setw(2)
-         << i
+         << "&"
+         //<< "x"
+         //<<  setw(2)
+         // << i
          << left
-         << " = "
-         << setw(20)
+         //<< " = "
+         //<< setw(20)
          << x
          << left
-         << "x(t"
-         << i
-         << ") = "
-         << setw(20)
+         << "&"
+         //<< "x(t"
+         // << i
+         // << ") = "
+         //<< setw(20)
          << f1Deriv(t, x)
          << left
-         << "err: "
+         << "&"
+         // << "err: "
          << ApproxError(t, x, h, fun)
+         << "\\\\ \\hline"
          << endl;
 }
 
@@ -109,11 +112,14 @@ int main(int argc, const char * argv[]) {
     ts = 1, tf = 2, xs = 3, h = 0.1, f = f1;
     
     cout << "Euler (podstawowy):" << endl;
+    cout << "t_k & x_k & x(t_k) & \\epsilon \\\\ \\hline\n";
     Euler(ts, tf,xs, h, f);
     cout << endl << "Euler (midpoint)" << endl;
+    cout << "t_k & x_k & x(t_k) & \epsilon \\\\ \\hline\n";
     EulerMidPoint(ts, tf,xs, h, f);
     
     cout << endl << "Euler (Heun):" << endl;
+    cout << "t_k & x_k & x(t_k) & \epsilon \\\\ \\hline\n";
     EulerHeun(ts, tf, xs, h, f);
     cout << endl << endl;
 
