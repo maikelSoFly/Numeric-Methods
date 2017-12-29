@@ -29,14 +29,17 @@ double f1Deriv(double t, double x) {
 }
 
 double ApproxError(double t, double x, double h, functionPtr f) {
-    return abs(x - f1Deriv(t, x));
+    return f1Deriv(t, x) - x;
 }
 
 
 void PrintOutcome(double t, double x, double h, double i, functionPtr fun = NULL) {
-    cout << setw(4)
+    cout << setw(1)
          << left
-         << "t = "
+         << "t"
+         << i
+         << left
+         << " = "
          << setw(20)
          << t
          << left
@@ -48,7 +51,9 @@ void PrintOutcome(double t, double x, double h, double i, functionPtr fun = NULL
          << setw(20)
          << x
          << left
-         << "x(t) = "
+         << "x(t"
+         << i
+         << ") = "
          << setw(20)
          << f1Deriv(t, x)
          << left
