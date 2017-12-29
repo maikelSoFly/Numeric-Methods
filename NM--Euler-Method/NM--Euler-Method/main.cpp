@@ -13,7 +13,6 @@
 using namespace std;
 
 typedef double (*functionPtr)(double, double);
-const double e = 2.721828;
 
 
 //FUNCTIONS
@@ -21,36 +20,15 @@ double f1(double x, double y) {
     return x+y;
 }
 
-
-
-// nvm...
-double f2(double x, double y) {
-    return 3 * pow(x, 2) - 2 * pow(y, 2);
-}
-
-double f3(double x, double y) {
-    return -1.2 * y + 7 * pow(e, -0.3 * x);
-}
-
-double f1Derivative(double x, double y) {
-    return NULL;
+double f1Deriv(double x, double y) {
+    
+    return exp(x) - x - 1;
 }
 
 double ApproxError(double x, double y, double h, functionPtr f) {
-    functionPtr fTemp;
+   
+    return abs(y - f1Deriv(x, y));
     
-    if(f == f1)
-        fTemp = f1Derivative;
-    else if (f == f2)
-        fTemp = NULL;
-    else if(f == f3)
-        fTemp = NULL;
-    
-    if(fTemp != NULL) {
-        return fTemp(x, y) * pow(h, 2) / 2;
-    }
-    else
-        return NULL;
 }
 
 void PrintOutcome(double x, double y, double h, double i, functionPtr fun = NULL) {
@@ -60,13 +38,17 @@ void PrintOutcome(double x, double y, double h, double i, functionPtr fun = NULL
          << setw(20)
          << x
          << left
-         << "i"
+         << "y"
          <<  setw(2)
          << i
          << left
          << " = "
          << setw(20)
          << y
+         << left
+         << "y(x): "
+         << setw(20)
+         << f1Deriv(x, y)
          << left
          << "err: "
          << ApproxError(x, y, h, fun)
@@ -127,26 +109,6 @@ int main(int argc, const char * argv[]) {
     EulerMidPoint(xs, xf,ys, h, f);
     cout << endl << endl;
     
-//    xs = 0, xf = 1, ys = 1, h = 0.1, f = f2; // Function 2
-//
-//    cout << "Funkcja 2" << endl << endl << "Euler (podstawowy):" << endl;
-//   Euler(xs, xf, ys, h, f);
-//    cout << endl << "Euler (Heun):" << endl;
-//    EulerHeun(xs, xf, ys, h, f);
-//    cout << endl << "Euler (midpoint)" << endl;
-//    EulerMidPoint(xs, xf, ys, h, f);
-//    cout << endl << endl;
-//
-//    xs = 0,xf = 2, ys = 3, h = 0.5, f = f3; // Function 3
-//
-//    cout << "Funkcja 3" << endl << endl << "Euler (podstawowy):" << endl;
-//    Euler(xs, xf, ys, h, f);
-//    cout << endl << "Euler (Heun):" << endl;
-//    EulerHeun(xs, xf, ys, h, f);
-//    cout << endl << "Euler (midpoint)" << endl;
-//    EulerMidPoint(xs, xf, ys, h, f);
-//    cout << endl << endl;
-//
-//
+
     return 0;
 }
