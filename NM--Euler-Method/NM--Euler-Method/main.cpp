@@ -66,17 +66,9 @@ double Euler(double ts, double tf, double xs, double h, functionPtr f) {
         t += h;
     }
     
-    
-    
     return x;
 }
-//x′k = F1(tk, xk)
-//x′′ = F (t , x ) k2kk
-//x′′′ = F (t , x ) k3kk
-//′ h2 ′′
-//xk+1 = xk + hxk + 2 xk + 6 xk
-//h3 ′′′
-//tk+1 =a+(k+1)h
+
 
 double TaylorIII(double ts, double tf, double xs, double h, functionPtr f) {
     double t = ts, x = xs;
@@ -95,10 +87,31 @@ double TaylorIII(double ts, double tf, double xs, double h, functionPtr f) {
         t += h;
     }
     
+    return x;
+}
+
+
+double Runge_KuttaIV(double ts, double tf, double xs, double h, functionPtr f) {
+    double t = ts, x = xs;
+    int interv = floor(((tf-ts)/h)/10);
     
+    for(int i = 0; t <= tf+h; ++i) {
+        if (i % interv == 0) {
+            PrintOutcome(t, x, h, i, f);
+        }
+        
+        double k1 = h*differentialEquationI(t, x);
+        double k2 = h*differentialEquationI(t+(h/2), x+(0.5*k1));
+        double k3 = h*differentialEquationI(t+(h/2), x+(0.5*k2));
+        double k4 = h*differentialEquationI(t+h, x+k3);
+        
+        x += (k1 + 2*k2 + 2*k3 + k4)/6;
+        t += h;
+    }
     
     return x;
 }
+
 
 double EulerHeun(double ts, double tf, double xs, double h, functionPtr f) {
     double t = ts, x = xs;
@@ -150,6 +163,9 @@ int main(int argc, const char * argv[]) {
     cout << endl << endl << "Taylor" << endl << endl;
     cout << "$t_k$ & $x_k$ & $x(t_k)$ & $\\epsilon$ \\\\ \\hline\n";
     TaylorIII(ts, tf,xs, h, f);
+    cout << endl << endl << "Runge_Kutta rzędu IV" << endl << endl;
+    cout << "$t_k$ & $x_k$ & $x(t_k)$ & $\\epsilon$ \\\\ \\hline\n";
+    Runge_KuttaIV(ts, tf,xs, h, f);
     
     cout << endl << endl << "Euler (Heun):" << endl << endl;
     cout << "$t_k$ & $x_k$ & $x(t_k)$ & $\\epsilon$ \\\\ \\hline\n";
