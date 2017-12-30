@@ -15,7 +15,7 @@ using namespace std;
 typedef double (*functionPtr)(double, double);
 
 
-//FUNCTIONS
+//MARK: - Equations
 
 // Zadanie 7.
 // x′ = t - x + 1       x(1) = 3,   1 < t < 2
@@ -36,11 +36,13 @@ double solutionFunction(double t, double x) {
     return 2*exp(1) * exp(-t) + t;
 }
 
+
+//MARK: - Calculating error from aproximated result and known value
 double ApproxError(double t, double x, double h, functionPtr f) {
     return solutionFunction(t, x) - x;
 }
 
-// paste it to LaTeX table
+//MARK: - LaTeX-Ready printing function
 void PrintOutcome(double t, double x, double h, double i, functionPtr fun = NULL) {
     cout    << t
             << " & "
@@ -54,6 +56,8 @@ void PrintOutcome(double t, double x, double h, double i, functionPtr fun = NULL
 }
 
 
+//MARK: - Aproximation methods
+
 double Euler(double ts, double tf, double xs, double h, functionPtr f) {
     double t = ts, x = xs;
     int interv = floor(((tf-ts)/h)/10);
@@ -63,6 +67,22 @@ double Euler(double ts, double tf, double xs, double h, functionPtr f) {
             PrintOutcome(t, x, h, i, f);
         }
         x += h * f(t, x);
+        t += h;
+    }
+    
+    return x;
+}
+
+
+double EulerMidPoint(double ts, double tf, double xs, double h, functionPtr f) {
+    double t = ts, x = xs;
+    int interv = floor(((tf-ts)/h)/10);
+    
+    for(int i = 0; t <= tf+h; ++i) {
+        if (i % interv == 0) {
+            PrintOutcome(t, x, h, i, f);
+        }
+        x += f(t + h/2, x + f(t, x) * h/2) * h;
         t += h;
     }
     
@@ -128,21 +148,6 @@ double EulerHeun(double ts, double tf, double xs, double h, functionPtr f) {
     return x;
 }
 
-double EulerMidPoint(double ts, double tf, double xs, double h, functionPtr f) {
-    double t = ts, x = xs;
-    int interv = floor(((tf-ts)/h)/10);
-    
-    for(int i = 0; t <= tf+h; ++i) {
-        if (i % interv == 0) {
-            PrintOutcome(t, x, h, i, f);
-        }
-        x += f(t + h/2, x + f(t, x) * h/2) * h;
-        t += h;
-    }
-    
-    return x;
-}
-
 
 
 int main(int argc, const char * argv[]) {
@@ -153,7 +158,7 @@ int main(int argc, const char * argv[]) {
     ts = 1, tf = 2, xs = 3, h = 0.01, f = differentialEquationI;
     
     
-    cout << "PASTE THIS OUTPUT TO LATEX TABLE!" << endl << endl;
+    cout << "PASTE THIS OUTPUT INTO LATEX TABLE!" << endl << endl;
     cout << "Euler (podstawowy):" << endl << endl;
     cout << "$t_k$ & $x_k$ & $x(t_k)$ & $\\epsilon$ \\\\ \\hline\n";
     Euler(ts, tf,xs, h, f);
